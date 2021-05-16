@@ -1,0 +1,59 @@
+        {% extends 'layout.html' %}
+        {% load static %}
+        {% block content %}
+        <article>
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8 col-md-10 mx-auto text-center">
+                        <h2 class="mx-auto d-block">{{article.title}}</h2><br>
+                        {% if article.image %}
+                             <img class="img-fluid" src="{{article.image.url}}">
+                        {% else %}
+                        {% endif %}
+                        <p class="text-left">{{article.content|safe}}</p>
+                        <span class="meta">
+                            Posted by
+                            <small><a href="#!">{{article.author}}</a></small>
+                            <small >{{article.created_date}}</small>
+                        </span>
+                    </div>
+                </div><br><br><br><br>
+                <div class="row">
+                   <div class="col-lg-8 col-md-10 mx-auto ">
+                      <h4>Yorumlar</h4>
+                        {% if comments %}
+                            {% for comment in comments %}
+                                <hr>
+                                <div class="media mb-4">
+                                    <img src="{% static 'img/user.png' %}" class="d-flex mr-3 rounded-circle">
+                                    <div class="media-body">
+                                        <h5 class="mt-0">{{comment.comment_author}}</h5>
+                                            {{comment.comment_context}}<br>
+                                            <small>{{comment.comment_created_date}}</small>
+                                    </div>
+                                </div>
+                                <hr>
+                                <br>
+                            {% endfor %}
+                        {% endif %}
+
+                        <div class="card my-4">
+                            <h5 class="card-header">Yorum Ekleyin:</h5>
+                            <div class="card-body">
+                                <form method="POST" action="{% url 'addcomment' article.id %}">
+                                    {% csrf_token %}
+                                    <div class="form-group">
+                                         <label for="formGroupExampleInput">İsim:</label>
+                                         <input name="comment_author" type="text" class="form-control" id="formGroupExampleInput" placeholder="Example input"><br>
+                                        <textarea name="comment_content" class="form-control" rows="4"></textarea>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary">Yorum Yap</button>
+                                </form>
+                            </div>
+                        </div>
+                   </div> 
+                </div>
+            </div>
+        </article>
+        <hr />
+    {% endblock content %}

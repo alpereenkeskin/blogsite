@@ -1,0 +1,48 @@
+{% extends 'layout.html' %}
+{% load static %} 
+    {% block content %}
+         {% if messages %}
+                <div class="container mt-4">
+                    {% for message in messages %}
+                        <div class="alert alert-{{message.tags}}" role="alert">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        <!-- Main Content-->
+        <div class="container">
+                <div class="col-lg-8 col-md-10 mx-auto">
+                        <h2>Son Eklenenler</h2>
+                        <hr>
+                                {% if article %}
+                                    {% for art in article %}
+                                        <div class="post-preview">
+                                            <a href="{% url 'detail' art.id %}">
+                                                {% if art.catalog_id == 1 %}
+                                                    <img style="width:500px;height:400px;" class="img-fluid" src="{% static 'img/python.png' %}">
+                                                {% else %}
+                                                    <img style="width:500px;height:400px;" class="img-fluid" src="{% static 'img/mimari.jpg' %}">
+                                                {% endif %}
+                                                <h2 class="post-title">{{art.title}}</h2>
+                                                <h3 class="post-subtitle">{{art.content|truncatechars:20|safe}}</h3>
+                                            </a>
+                                            <p class="post-meta">
+                                                Posted by
+                                                <a href="#">{{art.author}}</a>
+                                                {{art.created_date}}
+                                                <strong>Konu : {{art.catalog}}</strong><br>
+                                            </p>
+                                            <a class="btn btn-primary"  href="{% url 'detail' art.id %}">Devamını Oku..</a>
+
+                                        </div>
+                                        <hr />
+                                    {% endfor %}
+                                {% else %}
+                                    <div class="btn btn-alert">Bir Hata Oluştu</div>
+                                {% endif %}
+                    <div class="clearfix"><a class="btn btn-primary float-right" href="#!">Older Posts →</a></div>
+                </div>
+            </div>
+        </div>
+    {% endblock content %}  

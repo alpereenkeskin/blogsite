@@ -1,0 +1,47 @@
+{% extends 'layout.html' %} 
+{% load static %}
+{% block content %}
+<!-- Page Header-->
+{% if messages %}
+<div class="container mt-4">
+  {% for message in messages %}
+  <div class="alert alert-{{message.tags}}" role="alert">{{ message }}</div>
+  {% endfor %}
+</div>
+{% endif %}
+<!-- Main Content-->
+<div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-md-10 mx-auto">
+        {% if yazilar %}
+          {% for yazi  in yazilar %}
+            <div class="post-preview">
+              <a href="{% url 'detail' yazi.id %}">
+               {% if yazi.catalog_id == 1 %}
+                  <img style="width:500px;height:400px;" class="img-fluid" src="{% static 'img/python.png' %}">
+               {% else %}
+                  <img style="width:500px;height:400px;" class="img-fluid" src="{% static 'img/mimari.jpg' %}">
+               {% endif %}
+                <h2 class="post-title">{{yazi.title}}</h2>
+                <h3 class="post-subtitle">{{yazi.content|truncatechars:11}}<br><br> <a href="{% url 'detail' yazi.id %}" class="btn btn-primary">devamını oku.</a></h3>
+              </a>
+              <p class="post-meta">
+                Posted by
+                <a href="#!">{{yazi.author}}</a>
+                {{yazi.created_date}}
+                <strong>Konu :{{yazi.catalog}}</strong>
+              </p>
+            </div>
+            <hr />
+          {% endfor %}
+        {% endif %}
+        <!-- Pager-->
+        <div class="clearfix">
+          <a class="btn btn-primary float-right" href="#!">Older Posts →</a>
+        </div>
+      </div>
+    
+    </div>
+  
+</div>
+{% endblock content %}
